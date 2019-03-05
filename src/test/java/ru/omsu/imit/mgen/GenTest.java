@@ -44,10 +44,11 @@ public class GenTest
             double norm = g.matr_inf_norm(a, n);
             double norm_inv = g.matr_inf_norm(a_inv, n);
             double obusl = norm * norm_inv;
-            Solver.generateRandomAnswer();
-            double[] expectedResults = TestingUtils.getExpectedResults(n, a_inv);
+            double[] expectedResults = TestingUtils.generateExpectedResults(n);
+			Solver.setRightPart(TestingUtils.multiplyMatrixVector(Solver.getMatrix().size, Solver.getMatrix().array, expectedResults));
             double[] actualResults = Solver.solve();
-
+//			System.out.println(Arrays.toString(expectedResults));
+//			System.out.println(Arrays.toString(actualResults));
             Map<String, Double> analysis = TestingUtils.getAnalysis(Solver.getMatrix(), Solver.getAnswer(), expectedResults, actualResults);
             r = analysis.get("||r||");
             TestingUtils.setParameters(alpha, beta, norm, norm_inv, obusl);

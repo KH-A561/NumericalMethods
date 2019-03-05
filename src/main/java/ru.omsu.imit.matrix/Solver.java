@@ -16,8 +16,8 @@ public class Solver {
         return answer;
     }
 
-    public static void setAnswer(double[] answer) {
-        Solver.answer = answer;
+    public static void setRightPart(double[] rightPart) {
+        Solver.answer = rightPart;
     }
 
     public static void generateRandomAnswer() {
@@ -79,9 +79,6 @@ public class Solver {
         double[] answerCopy = answer.clone();
         if (matrix == null || answer == null || matrix.size == 0 || answer.length == 0) {
             throw new IllegalArgumentException("empty matrix");
-        }
-        if (matrix.getDeterminant() == 0) {
-            throw new IllegalArgumentException("det == 0");
         }
         for (int i = 0; i < matrix.size; i++) {
             renumberRows(i);

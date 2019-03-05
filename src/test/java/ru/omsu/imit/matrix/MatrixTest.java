@@ -2,8 +2,6 @@ package ru.omsu.imit.matrix;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
 public class MatrixTest {
@@ -35,7 +33,7 @@ public class MatrixTest {
         double[] expected = {-3, -5, -1, 2};
         Matrix matrix = new Matrix(arr, arr.length);
         Solver.setMatrix(matrix);
-        Solver.setAnswer(answer);
+        Solver.setRightPart(answer);
         assertArrayEquals(expected, Solver.solve(), 0.00001);
     }
 }

@@ -4,8 +4,6 @@ import ru.omsu.imit.mgen.Gen;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,17 +26,25 @@ public class TestingUtils {
         TestingUtils.obusl = obusl;
     }
 
-    public static double[] getExpectedResults(int size, double[][] invertedMatrix) {
-        double buf;
-        double[] expectedAnswer = new double[size];
+    public static double[] generateExpectedResults(int size) {
+        double[] expectedResults = new double[size];
         for (int i = 0; i < size; i++) {
-            buf = 0;
-            for (int j = 0; j < size; j++) {
-                buf += invertedMatrix[i][j] * Solver.answer[j];
-            }
-            expectedAnswer[i] = buf;
+            expectedResults[i] = Math.sin((double)i) * Math.sqrt(112.);
         }
-        return expectedAnswer;
+        return expectedResults;
+    }
+
+    public static double[] multiplyMatrixVector(int size, double[][] matrix, double[] expectedResults) {
+        double buf;
+        double[] answer = new double[size];
+        for (int i = 0; i < size; i++) {
+            buf = 0.;
+            for (int j = 0; j < size; j++) {
+                buf += matrix[i][j] * expectedResults[j];
+            }
+            answer[i] = buf;
+        }
+        return answer;
     }
 
     private static double getZInfinity(double[] actualResults, double[] expectedResults) {
@@ -78,17 +84,17 @@ public class TestingUtils {
     }
 
     public static void printFullAnalysisIntoFile(Map<String, Double> analysis) {
-        File file = new File("C:\\Users\\User\\Desktop\\Thumbtack\\NumericalMethods\\src\\main\\java\\ru.omsu.imit.matrix\\results_files\\output.txt");
+        File file = new File("C:\\Проекты студентов и преподавателей\\3 курс\\Khilko\\NumericalMethods\\src\\main\\java\\ru.omsu.imit.matrix\\results_files\\output.txt");
         try (BufferedWriter fout = new BufferedWriter(new FileWriter(file, true))) {
-            fout.append(Double.toString(alpha)).append(" ");
-            fout.append(Double.toString(beta)).append(" ");
-            fout.append(Double.toString(infNormA)).append(" ");
-            fout.append(Double.toString(infNormAInverted)).append(" ");
-            fout.append(Double.toString(obusl)).append(" ");
-            fout.append(Double.toString(analysis.get("||z||"))).append(" ");
-            fout.append(Double.toString(analysis.get("ζ"))).append(" ");
-            fout.append(Double.toString(analysis.get("||r||"))).append(" ");
-            fout.append(Double.toString(analysis.get("ρ"))).append("\n");
+            fout.append(Double.toString(alpha)).append("\t\t");
+            fout.append(Double.toString(beta)).append("\t\t");
+            fout.append(Double.toString(infNormA)).append("\t\t");
+            fout.append(Double.toString(infNormAInverted)).append("\t\t");
+            fout.append(Double.toString(obusl)).append("\t\t");
+            fout.append(Double.toString(analysis.get("||z||"))).append("\t\t");
+            fout.append(Double.toString(analysis.get("ζ"))).append("\t\t");
+            fout.append(Double.toString(analysis.get("||r||"))).append("\t\t");
+            fout.append(Double.toString(analysis.get("ρ"))).append("\n\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
