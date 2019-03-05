@@ -1,6 +1,7 @@
 package ru.omsu.imit.matrix;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
 
 import java.math.BigDecimal;
@@ -21,8 +22,12 @@ public class Matrix implements Cloneable {
         return new Matrix(MatrixUtils.inverse(new Array2DRowRealMatrix(this.array)).getData(), this.size);
     }
 
-    protected Object clone() {
-        return new Matrix(array.clone(), size);
+    public double getDeterminant() {
+        return new LUDecomposition(new Array2DRowRealMatrix(this.array)).getDeterminant();
+    }
+
+    public Object clone() {
+        return new Matrix(Arrays.stream(array).map(double[]::clone).toArray($ -> array.clone()), size);
     }
 
     @Override
