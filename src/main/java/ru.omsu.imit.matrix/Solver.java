@@ -63,30 +63,32 @@ public class Solver {
             matrix.array[currentRow][j] *= divider;
         }
         answer[currentRow] *= divider;
-        for (int i = 0; i < matrix.size; i++) {
-            if (i != currentRow) {
-                divider = matrix.array[i][currentRow] / matrix.array[currentRow][currentRow];
-                for (int j = currentRow; j < matrix.size; j++) {
-                    matrix.array[i][j] -= matrix.array[currentRow][j] * divider;
-                }
-                answer[i] -= answer[currentRow] * divider;
+        for (int i = 0; i < currentRow; i++) {
+            divider = matrix.array[i][currentRow] / matrix.array[currentRow][currentRow];
+            for (int j = currentRow; j < matrix.size; j++) {
+                matrix.array[i][j] -= matrix.array[currentRow][j] * divider;
             }
+            answer[i] -= answer[currentRow] * divider;
+        }
+        for (int i = currentRow + 1; i < matrix.size; i++) {
+            divider = matrix.array[i][currentRow] / matrix.array[currentRow][currentRow];
+            for (int j = currentRow; j < matrix.size; j++) {
+                matrix.array[i][j] -= matrix.array[currentRow][j] * divider;
+            }
+            answer[i] -= answer[currentRow] * divider;
         }
     }
 
     public static double[] solve() {
-        Matrix matrixCopy = (Matrix) Solver.getMatrix().clone();
-        double[] answerCopy = answer.clone();
-        if (matrix == null || answer == null || matrix.size == 0 || answer.length == 0) {
-            throw new IllegalArgumentException("empty matrix");
-        }
+//        Matrix matrixCopy = (Matrix) Solver.getMatrix().clone();
+//        double[] answerCopy = answer.clone();
         for (int i = 0; i < matrix.size; i++) {
             renumberRows(i);
             computeOperations(i);
         }
-        Solver.matrix = matrixCopy;
+//        Solver.matrix = matrixCopy;
         double[] result = answer;
-        answer = answerCopy;
+//        answer = answerCopy;
         return result;
     }
 }

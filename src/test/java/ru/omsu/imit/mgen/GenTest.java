@@ -41,6 +41,8 @@ public class GenTest
 //		g.print_matr(a_inv,n);
 
             Solver.setMatrix(new Matrix(a, n));
+            Matrix matrixCopy = (Matrix) Solver.getMatrix().clone();
+
             double norm = g.matr_inf_norm(a, n);
             double norm_inv = g.matr_inf_norm(a_inv, n);
             double obusl = norm * norm_inv;
