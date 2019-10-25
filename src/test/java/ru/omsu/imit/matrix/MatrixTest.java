@@ -1,6 +1,11 @@
 package ru.omsu.imit.matrix;
 
 import org.junit.Test;
+import ru.omsu.imit.integral.Integral;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -34,6 +39,14 @@ public class MatrixTest {
         Matrix matrix = new Matrix(arr, arr.length);
         Solver.setMatrix(matrix);
         Solver.setRightPart(answer);
-        assertArrayEquals(expected, Solver.solve(), 0.00001);
+        double[] actual = Solver.solve(new GaussSeidelAlgorithm());
+        assertArrayEquals(expected, actual, 0.001);
+    }
+
+    @Test
+    public void solveIntegral() {
+        Integral integral = new Integral(5, 1, 2, 1);
+        System.out.println(Arrays.toString(integral.calculateGS()));
+        System.out.println(Arrays.toString(integral.calculateDelta()));
     }
 }

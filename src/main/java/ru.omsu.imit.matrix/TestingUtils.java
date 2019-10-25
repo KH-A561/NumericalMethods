@@ -84,17 +84,17 @@ public class TestingUtils {
     }
 
     public static void printFullAnalysisIntoFile(Map<String, Double> analysis) {
-        File file = new File("C:\\Проекты студентов и преподавателей\\3 курс\\Khilko\\NumericalMethods\\src\\main\\java\\ru.omsu.imit.matrix\\results_files\\output.txt");
+        File file = new File("C:\\Users\\User\\Desktop\\Thumbtack\\NumericalMethods\\src\\main\\java\\ru.omsu.imit.matrix\\results_files\\output.txt");
         try (BufferedWriter fout = new BufferedWriter(new FileWriter(file, true))) {
-            fout.append(Double.toString(alpha)).append("\t\t");
-            fout.append(Double.toString(beta)).append("\t\t");
-            fout.append(Double.toString(infNormA)).append("\t\t");
-            fout.append(Double.toString(infNormAInverted)).append("\t\t");
-            fout.append(Double.toString(obusl)).append("\t\t");
-            fout.append(Double.toString(analysis.get("||z||"))).append("\t\t");
-            fout.append(Double.toString(analysis.get("ζ"))).append("\t\t");
-            fout.append(Double.toString(analysis.get("||r||"))).append("\t\t");
-            fout.append(Double.toString(analysis.get("ρ"))).append("\n\n");
+            fout.append(String.format("%6.5e", alpha)).append("\t");
+            fout.append(String.format("%6.5e", beta)).append("\t");
+            fout.append(String.format("%6.5e", infNormA)).append("\t");
+            fout.append(String.format("%6.5e", infNormAInverted)).append("\t");
+            fout.append(String.format("%6.5e", obusl)).append("\t");
+            fout.append(String.format("%6.5e", analysis.get("||z||"))).append("\t");
+            fout.append(String.format("%6.5e", analysis.get("ζ"))).append("\t");
+            fout.append(String.format("%6.5e", analysis.get("||r||"))).append("\t");
+            fout.append(String.format("%6.5e", analysis.get("ρ"))).append("\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

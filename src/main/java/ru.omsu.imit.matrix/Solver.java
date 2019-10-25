@@ -1,8 +1,20 @@
 package ru.omsu.imit.matrix;
 
+import java.util.List;
+
 public class Solver {
     public static Matrix matrix;
-    public static double[] answer;
+    public static double[] rightPart;
+    public static LinearEquationsSolvingAlgorithm algorithm;
+
+
+    public static LinearEquationsSolvingAlgorithm getAlgorithm() {
+        return algorithm;
+    }
+
+    public static void setAlgorithm(LinearEquationsSolvingAlgorithm algorithm) {
+        Solver.algorithm = algorithm;
+    }
 
     public static Matrix getMatrix() {
         return matrix;
@@ -12,37 +24,27 @@ public class Solver {
         Solver.matrix = matrix;
     }
 
-    public static double[] getAnswer() {
-        return answer;
+    public static double[] getRightPart() {
+        return rightPart;
     }
 
     public static void setRightPart(double[] rightPart) {
-        Solver.answer = rightPart;
+        Solver.rightPart = rightPart;
     }
 
-    public static void generateRandomAnswer() {
-        if (matrix == null || matrix.size == 0) {
-            throw new IllegalArgumentException("empty matrix");
-        }
-        answer = new double[matrix.size];
-        for (int i = 0; i < matrix.size; i++) {
-            answer[i] = Math.random() * 10.;
-        }
-    }
-
-    private static void swapRows(int firstRow, int secondRow) {
+    static void swapRows(int firstRow, int secondRow) {
         double buf;
         for (int j = 0; j < matrix.size; j++) {
             buf = matrix.array[firstRow][j];
             matrix.array[firstRow][j] = matrix.array[secondRow][j];
             matrix.array[secondRow][j] = buf;
         }
-        buf = answer[firstRow];
-        answer[firstRow] = answer[secondRow];
-        answer[secondRow] = buf;
+        buf = rightPart[firstRow];
+        rightPart[firstRow] = rightPart[secondRow];
+        rightPart[secondRow] = buf;
     }
 
-    private static void renumberRows(int currentRow) {
+    static void renumberRows(int currentRow) {
         double maxElem = Math.abs(matrix.array[currentRow][currentRow]);
         int maxRow = currentRow;
         for (int i = currentRow; i < matrix.size; i++) {
@@ -56,39 +58,21 @@ public class Solver {
         }
     }
 
-    private static void computeOperations(int currentRow) {
-        double divider;
-        divider = 1. / matrix.array[currentRow][currentRow];
-        for (int j = currentRow; j < matrix.size; j++) {
-            matrix.array[currentRow][j] *= divider;
-        }
-        answer[currentRow] *= divider;
-        for (int i = 0; i < currentRow; i++) {
-            divider = matrix.array[i][currentRow] / matrix.array[currentRow][currentRow];
-            for (int j = currentRow; j < matrix.size; j++) {
-                matrix.array[i][j] -= matrix.array[currentRow][j] * divider;
-            }
-            answer[i] -= answer[currentRow] * divider;
-        }
-        for (int i = currentRow + 1; i < matrix.size; i++) {
-            divider = matrix.array[i][currentRow] / matrix.array[currentRow][currentRow];
-            for (int j = currentRow; j < matrix.size; j++) {
-                matrix.array[i][j] -= matrix.array[currentRow][j] * divider;
-            }
-            answer[i] -= answer[currentRow] * divider;
-        }
+    public static double[] solve(LinearEquationsSolvingAlgorithm algorithm) {
+        setAlgorithm(algorithm);
+        return algorithm.solve(matrix, rightPart);
     }
 
-    public static double[] solve() {
-//        Matrix matrixCopy = (Matrix) Solver.getMatrix().clone();
-//        double[] answerCopy = answer.clone();
-        for (int i = 0; i < matrix.size; i++) {
-            renumberRows(i);
-            computeOperations(i);
+    static boolean index(List c, Object a) {
+        if (a != null) {
+            for (Object o : c) {
+                if (o.equals(a)) return true;
+            }
+        } else {
+            for (Object o : c) {
+                if (o == null) return true;
+            }
         }
-//        Solver.matrix = matrixCopy;
-        double[] result = answer;
-//        answer = answerCopy;
-        return result;
+        return false;
     }
 }

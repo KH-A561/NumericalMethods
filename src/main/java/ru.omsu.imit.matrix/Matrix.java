@@ -27,7 +27,12 @@ public class Matrix implements Cloneable {
     }
 
     public Object clone() {
-        return new Matrix(Arrays.stream(array).map(double[]::clone).toArray($ -> array.clone()), size);
+        double[][] result = new double[size][];
+        for (int r = 0; r < size; r++) {
+            result[r] = array[r].clone();
+        }
+        int s = size;
+        return new Matrix(result, s);
     }
 
     @Override
